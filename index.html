@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wheather App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./css/main.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/index.js" defer type="module"></script>
+  </head>
+  <body class="bg-gradient-to-b from-white to-sky-700 min-h-[100vh]">
+    <div class="wrapper">
+      <div class="container">
+        <section class="px-2">
+          <div class="block sm:flex sm:flex-col sm:items-center md:gap-3">
+            <!-- heading section -->
+            <div
+              class="weather-heading w-fit mx-auto font-bold text-center text-lg sm:text-3xl md:text-4xl py-1 pt-4 uppercase"
+            >
+              <h1 class="text-[#1e3a8a]">Weather App</h1>
+            </div>
+
+            <!-- Search section -->
+            <div
+              class="px-4 py-12 flex justify-between mx-auto w-[330px] sm:w-[450px] md:w-[550px] tracking-wider"
+            >
+              <!-- Your weather Section -->
+              <button
+                class="weather-details-btn px-3 py-1 w-[130px] text-[#0369a1] font-semibold ring-1 rounded-lg"
+              >
+                Your weather
+              </button>
+              <!-- Search Weather Section -->
+              <div
+                class="px-3 py-1 w-[150px] text-[#0369a1] bg-gray-200 font-semibold ring-1 rounded-lg"
+              >
+                <button class="search-btn outline-none">Search Weather</button>
+              </div>
+            </div>
+
+            <!-- Grant Location Container -->
+            <div class="sub-container grant-location-container">
+              <img
+                src="assets/location.png"
+                width="80"
+                height="80"
+                loading="lazy"
+              />
+              <p class="text-2xl text-white font-semibold">
+                Grant Location Access
+              </p>
+              <p class="text-white">Allow Access to get Weather Information</p>
+              <button class="btn" data-grantAccess>Grant Access</button>
+            </div>
+
+            <!-- search form section -->
+
+            <form
+              action=""
+              class="hidden flex form-container active justify-center gap-2 py-3"
+              id=""
+            >
+              <input
+                type="text"
+                placeholder="Search for city..."
+                name="city"
+                class="px-5 py-1 w-[260px] bg-gray-300 sm:w-[370px] md:w-[520px] rounded-lg focus:ring-2 focus:ring-gray-400 outline-none *:"
+              />
+              <button
+                class="searchIconBtn flex justify-center items-center size-[45px] rounded-full bg-gray-300 hover:bg-gray-400 hover:text-white transition-all"
+                type="button"
+              >
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </form>
+
+            <!-- loader -->
+
+            <div id="loader" class="hidden flex items-center justify-center">
+              <lottie-player
+                src="https://lottie.host/e9481648-4da7-4ba6-9722-11a2b62a68ef/kcRTUbNCmg.json"
+                background="transparent"
+                speed="1"
+                style="width: 200px; height: 200px"
+                direction="1"
+                playMode="normal"
+                loop
+                autoplay
+              ></lottie-player>
+            </div>
+
+            <!--  Show weather details container -->
+            <div
+              class="hidden flex show-weather-details-container px-4 flex-col items-center shadow-2xl"
+              id="content"
+            >
+              <!-- city name -->
+              <div class="flex items-center gap-2 pt-4">
+                <p class="city-name text-3xl font-semibold">Nagpur</p>
+                <img
+                  src="./images/flag.png"
+                  alt="flag"
+                  class="country-icon size-8"
+                />
+              </div>
+
+              <!-- Weather Description -->
+              <div class="pt-5">
+                <p class="description text-2xl text-center capitalize">Haze</p>
+              </div>
+
+              <!-- weather icon -->
+              <div class="flex justify-center w-20">
+                <img src="/images/50d.png" class="weather-img w-full" />
+              </div>
+
+              <!-- Temperature -->
+              <p class="text-center text-[48px] font-semibold">
+                <span class="temperature">27</span> °C
+              </p>
+
+              <!-- 3 card container  -->
+              <div class="py-4 flex justify-center flex-wrap pt-6 gap-6">
+                <div
+                  class="p-4 shadow-2xl text-gray-400 font-semibold rounded-lg w-[200px] flex flex-col gap-1 text-center bg-[#0369a1]"
+                >
+                  <div class="flex justify-center">
+                    <img src="/images/wind.png" alt="" class="size-[50px]" />
+                  </div>
+                  <p class="uppercase text-lg font-semibold">windspeed</p>
+                  <p><span class="windspeed">5.14</span> m/s</p>
+                </div>
+                <div
+                  class="p-4 shadow-2xl text-gray-400 font-semibold rounded-lg w-[200px] flex flex-col gap-1 text-center bg-[#0369a1]"
+                >
+                  <div class="flex justify-center">
+                    <img
+                      src="/images/humidity.png"
+                      alt=""
+                      class="size-[50px]"
+                    />
+                  </div>
+                  <p class="uppercase text-lg">Humidity</p>
+                  <p class=""><span class="humidity">74</span> %</p>
+                </div>
+                <div
+                  class="p-4 shadow-2xl text-gray-400 font-semibold rounded-lg w-[200px] flex flex-col gap-1 text-center bg-[#0369a1]"
+                >
+                  <div class="flex justify-center">
+                    <img src="/images/cloud.png" alt="" class="size-[50px]" />
+                  </div>
+                  <p class="uppercase text-lg">Clouds</p>
+                  <p><span class="clouds">75</span> %</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  </body>
+</html>
