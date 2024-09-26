@@ -65,6 +65,7 @@ searchIconBtn.addEventListener("click", async () => {
     }
   } catch (error) {
     console.log("this is an error");
+    loader.classList.add("hidden");
     console.log(error);
     if (error.response.data.message === "city not found") {
       alert("City Not Found");
@@ -89,7 +90,7 @@ async function getUserWeatherInfo(coordinates) {
     content.classList.remove("hidden");
     insertWeatherDetails(response);
   } catch (err) {
-    // loader.classList.add("hidden");
+    loader.classList.add("hidden");
     console.log("Error Found : ", err);
     //Remaining
     console.log("your location is not avialable");
