@@ -8,41 +8,47 @@ let weatherDetailsContainer = document.querySelector(
 let weatherDetailsShowButton = document.querySelector(".weather-details-btn");
 let loader = document.getElementById("loader");
 let content = document.getElementById("content");
+let grantAccessBtn = document.querySelector(".grantAccessBtn");
+let grantAccessContainer = document.querySelector(".grant-location-container");
 
 const API_KEY = "048fc2c7c8bf5c981a5c2c2477723c39";
 
-const url = `https://api.openweathermap.org/data/2.5/weather?q=Nashik&appid=${API_KEY}&units=metric`;
+// const url = `https://api.openweathermap.org/data/2.5/weather?q=Nashik&appid=${API_KEY}&units=metric`;
 
 function updateUrl() {
   return `https://api.openweathermap.org/data/2.5/weather?q=${searchInput[0].value}&appid=${API_KEY}&units=metric`;
 }
 
-// let url = `https://api.openweathermap.org/data/2.5/weather?q=Nashik&appid=${API_KEY}&units=metric`;
-
-// function Loader() {
-//   window.addEventListener("load", function () {
-//
-
-//     // Simulate loading time
-//     setTimeout(function () {
-//       loader.style.display = "none"; // Hide loader
-//       content.classList.remove("hidden"); // Show content
-//     }, 3000); // 3-second delay to simulate load
-//   });
-// }
-
 weatherDetailsShowButton.addEventListener("click", async () => {
   loader.classList.remove("hidden");
   content.classList.add("hidden");
+  searchWeatherBtn.classList.remove("bg-gray-200");
+  searchWeatherBtn.classList.remove("ring-1");
+  weatherDetailsShowButton.classList.add("bg-gray-200");
+  weatherDetailsShowButton.classList.add("ring-1");
+  searchBar.classList.add("hidden");
   try {
-    const response = await axios.get(url);
-    // console.log(searchInput[0].value);
-    loader.classList.add("hidden");
-    content.classList.remove("hidden");
-    insertWeatherDetails(response);
+    // const response = await axios.get(url);
+    // // console.log(searchInput[0].value);
+    // loader.classList.add("hidden");
+    // content.classList.remove("hidden");
+    // insertWeatherDetails(response);
+    getLocation();
   } catch (error) {
     console.log(error);
   }
+});
+
+searchWeatherBtn.addEventListener("click", () => {
+  // styles
+  searchWeatherBtn.classList.add("bg-gray-200");
+  searchWeatherBtn.classList.add("ring-1");
+  weatherDetailsShowButton.classList.remove("bg-gray-200");
+  weatherDetailsShowButton.classList.remove("ring-1");
+
+  // logic
+  searchBar.classList.remove("hidden");
+  content.classList.add("hidden");
 });
 
 searchIconBtn.addEventListener("click", async () => {
@@ -66,6 +72,53 @@ searchIconBtn.addEventListener("click", async () => {
   }
 });
 
+async function getUserWeatherInfo(coordinates) {
+  const { latitude, longitude } = coordinates;
+
+  let URL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`;
+
+  //Now make grantAccessContainer Invisible from screen
+  grantAccessContainer.classList.add("hidden");
+
+  //Make Loader  visible
+  loader.classList.remove("hidden");
+
+  try {
+    const response = await axios.get(URL);
+    loader.classList.add("hidden");
+    content.classList.remove("hidden");
+    insertWeatherDetails(response);
+  } catch (err) {
+    // loader.classList.add("hidden");
+    console.log("Error Found : ", err);
+    //Remaining
+    console.log("your location is not avialable");
+  }
+}
+
+// access the co-ordinates from location
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    alert("No Geolocation Support Available");
+  }
+}
+
+function showPosition(position) {
+  const userCoordinates = {
+    latitude: position.coords.latitude,
+    longitude: position.coords.longitude,
+  };
+
+  //Store this into session storage as "user-coordinates"
+  sessionStorage.setItem("user-coordinates", JSON.stringify(userCoordinates));
+  getUserWeatherInfo(userCoordinates);
+}
+
+grantAccessBtn.addEventListener("click", getLocation());
+
+// insert the data
 function insertWeatherDetails(weatherDetails) {
   let cityName = document.querySelector(".city-name");
   let countryIcon = document.querySelector(".country-icon");
