@@ -56,7 +56,20 @@ searchIconBtn.addEventListener("click", async () => {
   content.classList.add("hidden");
   try {
     if (searchInput[0].value === "") {
-      alert("Enter city name");
+      Toastify({
+        text: "Enter city name",
+        duration: 2000,
+        destination: "https://github.com/apvarun/toastify-js",
+        newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "left", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
     } else {
       const response = await axios.get(updateUrl());
       loader.classList.add("hidden");
@@ -68,7 +81,20 @@ searchIconBtn.addEventListener("click", async () => {
     loader.classList.add("hidden");
     console.log(error);
     if (error.response.data.message === "city not found") {
-      alert("City Not Found");
+      Toastify({
+        text: "City Not Found",
+        duration: 2000,
+        destination: "https://github.com/apvarun/toastify-js",
+        newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: "left", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
     }
   }
 });
@@ -102,7 +128,20 @@ function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);
   } else {
-    alert("No Geolocation Support Available");
+    Toastify({
+      text: "No Geolocation Support Available",
+      duration: 2000,
+      destination: "https://github.com/apvarun/toastify-js",
+      newWindow: true,
+      close: true,
+      gravity: "top", // `top` or `bottom`
+      position: "left", // `left`, `center` or `right`
+      stopOnFocus: true, // Prevents dismissing of toast on hover
+      style: {
+        background: "linear-gradient(to right, #00b09b, #96c93d)",
+      },
+      onClick: function () {}, // Callback after click
+    }).showToast();
   }
 }
 
